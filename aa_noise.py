@@ -1,4 +1,5 @@
 import numpy as np
+from scipy import ndimage
 import aalib
 import argparse
 
@@ -27,10 +28,10 @@ def gradient(width, height, cells, pos=np.array((0, 0)),
     fy = aalib.decimal(vy)
     
     p = [ '' for _ in range(4)]
-    p[point_order[0]] = aalib.rand1d(ix, iy, rnd_off, rndx=rndx[0], rndy=rndy[0])
-    p[point_order[1]] = aalib.rand1d(ix + 1, iy + 0, rnd_off, rndx=rndx[1], rndy=rndy[1])
-    p[point_order[2]] = aalib.rand1d(ix + 0, iy + 1, rnd_off, rndx=rndx[2], rndy=rndy[2])
-    p[point_order[3]] = aalib.rand1d(ix + 1, iy + 1, rnd_off, rndx=rndx[3], rndy=rndy[3])
+    p[point_order[0]] = aalib.rand1d(ix, iy, rndx=rndx[0], rndy=rndy[0], off=rnd_off)
+    p[point_order[1]] = aalib.rand1d(ix + 1, iy + 0, rndx=rndx[1], rndy=rndy[1], off=rnd_off)
+    p[point_order[2]] = aalib.rand1d(ix + 0, iy + 1, rndx=rndx[2], rndy=rndy[2], off=rnd_off)
+    p[point_order[3]] = aalib.rand1d(ix + 1, iy + 1, rndx=rndx[3], rndy=rndy[3], off=rnd_off)
     sx = aalib.smoothstep(fx)
     sy = aalib.smoothstep(fy)
     return aalib.lerp(p[0], p[1], sx) + (p[2] - p[0]) * sy * (1-sx) + (p[3] - p[1]) * sx * sy
